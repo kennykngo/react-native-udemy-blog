@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const ShowScreen = () => {
+import { Context } from "../context/BlogContext";
+
+const ShowScreen = ({ navigation }) => {
+  const { state } = useContext(Context);
+  const blogPost = state.find(
+    (blogPost) => blogPost.id === navigation.getParam("id")
+  );
+
   return (
     <View>
-      <Text>Show Screen</Text>
+      <Text>{blogPost.title}</Text>
     </View>
   );
 };
