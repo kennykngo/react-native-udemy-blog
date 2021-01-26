@@ -1,11 +1,10 @@
 import { Feather } from "@expo/vector-icons";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Button,
   FlatList,
   StyleSheet,
   Text,
-  Touchable,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -13,9 +12,21 @@ import {
 import { Context } from "../context/BlogContext";
 
 const IndexScreen = ({ navigation }) => {
-  const { state, addBlogPost, deleteBlogPost } = useContext(Context);
+  const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
 
-  console.log(navigation);
+  useEffect(() => {
+    getBlogPosts();
+
+    // anytime the main screen appears, the client refocuses
+    const listener = navigation.addListener("didFocus", () => {
+      getBlogPosts();
+    });
+
+    // function is only invoked only if instance of useEffect from the screen is completely removed
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   return (
     <View>
