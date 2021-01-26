@@ -42,9 +42,7 @@ const addBlogPost = (dispatch) => {
   return async (title, content, callback) => {
     await jsonServer.post("/blogposts", { title, content });
 
-    if (callback) {
-      callback();
-    }
+    callback && callback();
   };
 };
 
